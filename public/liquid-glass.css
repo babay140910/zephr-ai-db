@@ -1,5 +1,5 @@
 
-/* ZEPHR.AI — BLACK COSMIC LIQUID GLASS */
+/* ZEPHR.AI — INTERACTIVE BLACK COSMIC GLASS */
 
 :root {
   color-scheme: dark;
@@ -14,7 +14,7 @@
 
 html, body {
   background: #030305 !important;
-  color: var(--fg) !important;
+  color: white !important;
 }
 
 body {
@@ -34,10 +34,11 @@ header,
   -webkit-backdrop-filter: blur(28px) saturate(140%);
 }
 
+/* LOGO */
 .brand-trigger {
   position: relative;
   isolation: isolate;
-  overflow: visible;
+  overflow: hidden !important;
   border: 0;
   background: transparent !important;
   color: white !important;
@@ -46,11 +47,28 @@ header,
   gap: 10px;
   padding: 5px;
   filter: drop-shadow(0 0 9px rgba(255,255,255,.3));
-  transition: transform .35s var(--spring);
+  transition: transform 420ms var(--spring) !important;
+  touch-action: pan-y;
 }
 
 .brand-trigger:active {
-  transform: scale(1.08);
+  transform: scale(.96);
+}
+
+.brand-trigger .cosmic-network {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.brand-trigger .brand-mark,
+.brand-trigger .brand-name {
+  position: relative;
+  z-index: 2;
 }
 
 .brand-mark {
@@ -80,57 +98,52 @@ header,
   to { box-shadow: 0 0 24px rgba(255,255,255,.6); }
 }
 
-/* ZEPHR COSMIC STARS */
-
-.brand-trigger {
-  position: relative;
-  isolation: isolate;
-  overflow: visible !important;
+/* COSMIC NETWORK */
+.network-lines path {
+  fill: none;
+  stroke: rgba(255,255,255,.65);
+  stroke-width: 1;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 2px white);
+  animation: networkFlow 5s linear infinite;
 }
 
-.brand-trigger::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+.network-stars circle,
+.interactive-stars circle {
+  fill: white;
+  filter: drop-shadow(0 0 4px white);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: networkTwinkle 2s ease-in-out infinite alternate;
+}
+
+.network-stars circle:nth-child(3n) {
+  animation-delay: -.8s;
+}
+
+.interactive-stars {
   pointer-events: none;
-  border-radius: 12px;
-
-  background:
-    radial-gradient(circle at 8% 25%, white 0 2px, transparent 3px),
-    radial-gradient(circle at 23% 70%, white 0 1.5px, transparent 2.5px),
-    radial-gradient(circle at 38% 20%, white 0 2px, transparent 3px),
-    radial-gradient(circle at 52% 65%, white 0 2px, transparent 3px),
-    radial-gradient(circle at 68% 25%, white 0 2px, transparent 3px),
-    radial-gradient(circle at 83% 70%, white 0 1.5px, transparent 2.5px),
-    radial-gradient(circle at 95% 30%, white 0 2px, transparent 3px),
-
-    linear-gradient(20deg, transparent 24%, white 24.5%, transparent 25%),
-    linear-gradient(-25deg, transparent 43%, white 43.5%, transparent 44%),
-    linear-gradient(18deg, transparent 61%, white 61.5%, transparent 62%),
-    linear-gradient(-15deg, transparent 78%, white 78.5%, transparent 79%);
-
-  opacity: .9;
-  animation: zephrStars 5s ease-in-out infinite alternate;
 }
 
-.brand-trigger > * {
-  position: relative;
-  z-index: 1;
+.interactive-stars line {
+  stroke: white;
+  stroke-width: .8;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px white);
 }
 
-@keyframes zephrStars {
-  0% {
-    opacity: .45;
-    transform: translateY(1px);
+@keyframes networkFlow {
+  to { stroke-dashoffset: -40; }
+}
+
+@keyframes networkTwinkle {
+  from {
+    opacity: .55;
+    transform: scale(.8);
   }
-  50% {
+  to {
     opacity: 1;
-    transform: translateY(-1px);
-  }
-  100% {
-    opacity: .7;
-    transform: translateY(1px);
+    transform: scale(1.5);
   }
 }
 
@@ -145,8 +158,9 @@ textarea,
   border: 1px solid rgba(255,255,255,.17) !important;
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.12),
-              0 8px 25px rgba(0,0,0,.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 8px 25px rgba(0,0,0,.25);
 }
 
 .btn.primary,
@@ -160,15 +174,15 @@ textarea,
 button,
 .suggestion {
   -webkit-tap-highlight-color: transparent;
-  transition: transform .35s var(--spring),
-              box-shadow .3s ease,
-              background .3s ease;
+  transition:
+    transform 420ms cubic-bezier(.34,1.56,.64,1),
+    box-shadow 350ms ease !important;
 }
 
 button:active,
 .suggestion:active {
-  transform: scale(1.075);
-  box-shadow: 0 0 25px rgba(255,255,255,.3);
+  transform: scale(.94);
+  box-shadow: 0 0 28px rgba(255,255,255,.28);
 }
 
 .empty h2 {
@@ -197,10 +211,7 @@ textarea:focus {
   box-shadow: 0 0 18px rgba(255,255,255,.12);
 }
 
-.research-panel h2 {
-  color: white !important;
-}
-
+.research-panel h2,
 .research-sources a {
   color: white !important;
 }
@@ -210,105 +221,15 @@ textarea:focus {
   outline-offset: 5px;
 }
 
-/* ZEPHR SPRING TOUCH */
-button,
-.btn,
-.suggestion,
-.brand-trigger {
-  transform: scale(1);
-  transform-origin: center;
-  transition:
-    transform 420ms cubic-bezier(.34, 1.56, .64, 1),
-    box-shadow 350ms ease !important;
-  will-change: transform;
-  -webkit-tap-highlight-color: transparent;
-}
-
-button:active,
-.btn:active,
-.suggestion:active,
-.brand-trigger:active {
-  transform: scale(.94);
-  box-shadow: 0 0 28px rgba(255,255,255,.28);
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .brand-trigger::before,
-  .brand-mark {
+  .brand-mark,
+  .network-stars circle,
+  .interactive-stars circle,
+  .network-lines path {
     animation: none !important;
   }
+
   *, *::before, *::after {
     transition-duration: .01ms !important;
-  }
-}
-
-
-/* ZEPHR COSMIC NETWORK */
-
-.brand-trigger {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden !important;
-}
-
-.brand-trigger::before,
-.brand-trigger::after {
-  content: none !important;
-}
-
-.brand-trigger .cosmic-network {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.brand-trigger .brand-mark,
-.brand-trigger .brand-name {
-  position: relative;
-  z-index: 1;
-}
-
-.network-lines path {
-  fill: none;
-  stroke: rgba(255, 255, 255, .55);
-  stroke-width: .8;
-  stroke-linecap: round;
-  stroke-dasharray: 5 5;
-  animation: networkFlow 7s linear infinite;
-}
-
-.network-stars circle {
-  fill: #fff;
-  filter: drop-shadow(0 0 3px #fff);
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: networkTwinkle 2.4s ease-in-out infinite alternate;
-}
-
-.network-stars circle:nth-child(3n) {
-  animation-delay: -.8s;
-}
-
-.network-stars circle:nth-child(3n + 1) {
-  animation-delay: -1.5s;
-}
-
-@keyframes networkFlow {
-  to {
-    stroke-dashoffset: -40;
-  }
-}
-
-@keyframes networkTwinkle {
-  from {
-    opacity: .45;
-    transform: scale(.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1.45);
   }
 }

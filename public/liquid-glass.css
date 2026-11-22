@@ -241,3 +241,74 @@ button:active,
     transition-duration: .01ms !important;
   }
 }
+
+
+/* ZEPHR COSMIC NETWORK */
+
+.brand-trigger {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden !important;
+}
+
+.brand-trigger::before,
+.brand-trigger::after {
+  content: none !important;
+}
+
+.brand-trigger .cosmic-network {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.brand-trigger .brand-mark,
+.brand-trigger .brand-name {
+  position: relative;
+  z-index: 1;
+}
+
+.network-lines path {
+  fill: none;
+  stroke: rgba(255, 255, 255, .55);
+  stroke-width: .8;
+  stroke-linecap: round;
+  stroke-dasharray: 5 5;
+  animation: networkFlow 7s linear infinite;
+}
+
+.network-stars circle {
+  fill: #fff;
+  filter: drop-shadow(0 0 3px #fff);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: networkTwinkle 2.4s ease-in-out infinite alternate;
+}
+
+.network-stars circle:nth-child(3n) {
+  animation-delay: -.8s;
+}
+
+.network-stars circle:nth-child(3n + 1) {
+  animation-delay: -1.5s;
+}
+
+@keyframes networkFlow {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+@keyframes networkTwinkle {
+  from {
+    opacity: .45;
+    transform: scale(.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.45);
+  }
+}

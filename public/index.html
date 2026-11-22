@@ -617,10 +617,7 @@
 
   <script>
     const SUGGESTIONS = [
-      "Jelaskan rekber vs bayar langsung dalam 4 poin.",
-      "Buat 5 nama toko digital yang pendek.",
-      "Tulis pesan WhatsApp yang sopan untuk pembeli.",
-      "Ringkas cara kerja QRIS untuk pemula."
+      "halo disini zephr.ai siap melayani apakah ada yang bisa dibantu?."
     ];
 
     const el = {
@@ -874,11 +871,6 @@
       confirmClear = false;
       el.clearBtn.textContent = "Hapus";
       render();
-    });
-
-    el.settingsBtn.addEventListener("click", () => {
-      el.settings.classList.toggle("open");
-      refreshHint();
     });
 
     // init

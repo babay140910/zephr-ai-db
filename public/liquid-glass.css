@@ -186,6 +186,25 @@ textarea:focus {
   outline-offset: 5px;
 }
 
+/* SPRING PRESS ANIMATION */
+button,
+.btn,
+.suggestion {
+  transform: scale(1);
+  transition: transform 250ms cubic-bezier(.22, 1, .36, 1) !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active,
+.btn:active,
+.suggestion:active {
+  transform: scale(1.09) !important;
+}
+
+button:focus-visible {
+  outline: 2px solid rgba(255,255,255,.8);
+  outline-offset: 4px;
+  }
 @media (prefers-reduced-motion: reduce) {
   .brand-trigger::before,
   .brand-mark {

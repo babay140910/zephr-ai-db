@@ -683,10 +683,13 @@
       } catch(err) { meta.textContent = "Riset belum dapat dimuat"; summary.textContent = err.message; }
     }
 
-    el.researchBtn.addEventListener("click", async () => {
-      el.researchPanel.classList.toggle("open");
-      if (el.researchPanel.classList.contains("open")) loadDailyResearch();
-    });
+    document.getElementById("brandBtn").addEventListener("click", () => {
+  el.researchPanel.classList.toggle("open");
+
+  if (el.researchPanel.classList.contains("open")) {
+    loadDailyResearch();
+  }
+});
 
     async function refreshHint() {
       try {

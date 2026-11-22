@@ -533,6 +533,48 @@
 
   </style>
 
+  /* Z.ai minimalist brand */
+.brand-trigger {
+  border: 0;
+  background: transparent;
+  color: #263c65;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: var(--font);
+  padding: 5px;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1);
+}
+
+.brand-trigger:active {
+  transform: scale(.94);
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  color: white;
+  background: linear-gradient(135deg, #527de5, #8db8ff);
+  box-shadow: 0 5px 16px rgba(82,125,229,.25);
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.brand-trigger:focus-visible {
+  outline: 2px solid #7199ec;
+  outline-offset: 4px;
+  border-radius: 12px;
+}
    <link rel="stylesheet" href="/liquid-glass.css">
 </head>
 <body>

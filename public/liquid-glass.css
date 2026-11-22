@@ -55,6 +55,15 @@ header,
   transform: scale(.96);
 }
 
+
+.brand-trigger {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden !important;
+  min-width: 100%;
+  min-height: 72px;
+}
+
 .brand-trigger .cosmic-network {
   position: absolute;
   inset: 0;
@@ -64,6 +73,13 @@ header,
   pointer-events: none;
   overflow: hidden;
 }
+
+.brand-trigger .brand-mark,
+.brand-trigger .brand-name {
+  position: relative;
+  z-index: 2;
+}
+
 
 .brand-trigger .brand-mark,
 .brand-trigger .brand-name {

@@ -186,25 +186,27 @@ textarea:focus {
   outline-offset: 5px;
 }
 
-/* SPRING PRESS ANIMATION */
+/* ZEPHR SPRING TOUCH */
 button,
 .btn,
-.suggestion {
+.suggestion,
+.brand-trigger {
   transform: scale(1);
-  transition: transform 250ms cubic-bezier(.22, 1, .36, 1) !important;
+  transform-origin: center;
+  transition:
+    transform 420ms cubic-bezier(.34, 1.56, .64, 1),
+    box-shadow 350ms ease !important;
+  will-change: transform;
   -webkit-tap-highlight-color: transparent;
 }
 
 button:active,
 .btn:active,
-.suggestion:active {
-  transform: scale(1.09) !important;
+.suggestion:active,
+.brand-trigger:active {
+  transform: scale(.94);
+  box-shadow: 0 0 28px rgba(255,255,255,.28);
 }
-
-button:focus-visible {
-  outline: 2px solid rgba(255,255,255,.8);
-  outline-offset: 4px;
-  }
 
 @media (prefers-reduced-motion: reduce) {
   .brand-trigger::before,

@@ -11,7 +11,7 @@
     {
       "binding": "DB",
       "database_name": "zephr-ai-db",
-      "database_id": "425289ca-6228-4edd-a5a8-79573b6c7ce2",
+      "database_id": "9c90fb69-5509-48b9-9a79-97749cbe180f",
       "migrations_dir": "migrations"
     }
   ],

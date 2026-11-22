@@ -616,6 +616,8 @@
 </button>
 
 <div class="actions">
+  <button type="button" class="btn icon-btn" id="starsToggle"
+    aria-label="Matikan efek bintang" aria-pressed="true">✦</button>
   <button type="button" class="btn" id="clearBtn">Hapus</button>
 </div>
     </header>
@@ -636,12 +638,33 @@
     <div class="chat" id="chat" aria-live="polite"></div>
 
     <div class="composer-wrap">
-      <form class="composer" id="form">
-        <label class="sr-only" for="input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Pesan</label>
-        <textarea id="input" rows="1" placeholder="Tulis sesuatu untuk zephr..." maxlength="4000"></textarea>
-        <button type="submit" class="btn primary" id="sendBtn">Kirim</button>
-      </form>
-      <p class="hint" id="hint" hidden></p>
+  <div id="attachmentPreview" class="attachment-preview"></div>
+
+  <form class="composer" id="form">
+    <input
+      type="file"
+      id="fileInput"
+      accept="image/*,video/*,.pdf,.txt,.doc,.docx"
+      multiple
+      hidden
+    />
+
+    <button type="button" class="btn icon-btn add-btn"
+      id="addFileBtn" aria-label="Tambah file">+</button>
+
+    <label class="sr-only" for="input"
+      style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">
+      Pesan
+    </label>
+
+    <textarea id="input" rows="1"
+      placeholder="Tulis sesuatu untuk zephr..."
+      maxlength="4000"></textarea>
+
+    <button type="submit" class="btn primary" id="sendBtn">Kirim</button>
+  </form>
+
+  <p class="hint" id="hint" hidden></p>
     </div>
   </div>
 

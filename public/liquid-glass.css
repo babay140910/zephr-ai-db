@@ -1,352 +1,197 @@
 
-/* ZEPHR.AI — iOS LIQUID GLASS LIGHT */
+/* ZEPHR.AI — BLACK COSMIC LIQUID GLASS */
 
 :root {
-  color-scheme: light;
-
-  --bg: #f4f6fc;
-  --elevated: rgba(255,255,255,.72);
-  --subtle: rgba(255,255,255,.58);
-  --fg: #202438;
-  --muted: #68738c;
-  --faint: #929bb0;
-  --line: rgba(125,145,185,.20);
-  --accent: #b5ceff;
-  --ink: #17233d;
-  --danger: #d94b61;
-
-  --glass: rgba(255,255,255,.62);
-  --glass-border: rgba(255,255,255,.85);
+  color-scheme: dark;
+  --bg: #030305;
+  --fg: #ffffff;
+  --muted: #b9b9c5;
+  --faint: #858592;
+  --line: rgba(255,255,255,.16);
+  --glass: rgba(255,255,255,.055);
   --spring: cubic-bezier(.22,1,.36,1);
 }
 
 html, body {
-  background:
-    radial-gradient(ellipse at 10% 0%, #e0eaff, transparent 45%),
-    radial-gradient(ellipse at 100% 75%, #e9e4ff, transparent 38%),
-    #f4f6fc !important;
-  color: var(--fg);
-}
-
-body::before {
-  opacity: .08;
-}
-
-header {
-  background: rgba(255,255,255,.68) !important;
-  border-color: var(--line) !important;
-  box-shadow: 0 8px 30px rgba(70,90,140,.07);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-}
-
-.brand h1 {
-  background: linear-gradient(110deg,#344b78,#7898d8) !important;
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-.brand p {
-  color: #78849d !important;
-}
-
-.btn {
-  color: #34425f !important;
-  background: rgba(255,255,255,.66) !important;
-  border: 1px solid rgba(255,255,255,.9) !important;
-  border-radius: 15px !important;
-  box-shadow:
-    inset 0 1px 1px rgba(255,255,255,.95),
-    0 5px 18px rgba(70,90,140,.09);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: transform .4s var(--spring),
-              box-shadow .4s var(--spring);
-}
-
-.btn.primary, .btn.active {
-  color: #fff !important;
-  background: linear-gradient(135deg,#789be9,#9bb9f5) !important;
-  border-color: rgba(255,255,255,.8) !important;
-}
-
-.btn:active:not(:disabled),
-.suggestion:active {
-  transform: scale(.95);
-}
-
-.btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-
-.chat {
-  scroll-behavior: smooth;
-}
-
-.empty h2 {
-  background: linear-gradient(110deg,#293c65,#7898d8) !important;
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-.empty p {
-  color: #69758f !important;
-}
-
-.suggestion {
-  color: #34425f !important;
-  background: rgba(255,255,255,.64) !important;
-  border: 1px solid rgba(255,255,255,.9) !important;
-  border-radius: 19px !important;
-  box-shadow: 0 8px 25px rgba(70,90,140,.07);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  transition: transform .4s var(--spring),
-              box-shadow .4s var(--spring);
-}
-
-.suggestion:hover {
-  transform: translateY(-3px);
-}
-
-.msg.user .bubble {
-  color: #17233d !important;
-  background: linear-gradient(135deg,#dce9ff,#b5ceff) !important;
-}
-
-.msg.bot .bubble {
-  color: #303b54 !important;
-  background: rgba(255,255,255,.72) !important;
-  border: 1px solid rgba(255,255,255,.95) !important;
-  box-shadow: 0 8px 25px rgba(70,90,140,.07);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-.thought {
-  color: #65718a !important;
-  background: rgba(255,255,255,.65) !important;
-}
-
-.meta button {
-  color: #7889a9 !important;
-}
-
-.status, .hint {
-  color: #8590a7 !important;
-}
-
-.composer-wrap {
-  background: rgba(255,255,255,.72) !important;
-  border-color: var(--line) !important;
-  box-shadow: 0 -8px 30px rgba(70,90,140,.05);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-}
-
-textarea,
-.settings input,
-.settings select {
-  color: #303b54 !important;
-  background: rgba(255,255,255,.78) !important;
-  border: 1px solid rgba(160,175,205,.3) !important;
-  border-radius: 17px !important;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,.9);
-}
-
-textarea::placeholder {
-  color: #9ba5b8 !important;
-}
-
-.settings {
-  background: rgba(255,255,255,.82) !important;
-  border-color: var(--line) !important;
-}
-
-.settings p,
-.settings .note {
-  color: #68738c !important;
-}
-
-.research-panel {
-  background: rgba(255,255,255,.72) !important;
-  border-color: var(--line) !important;
-  box-shadow: 0 8px 25px rgba(70,90,140,.07);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-}
-
-.research-panel h2 {
-  color: #34425f;
-}
-
-.research-panel p {
-  color: #68738c !important;
-}
-
-.research-sources a {
-  color: #527bc5 !important;
-}
-
-.draggable {
-  touch-action: none;
-  user-select: none;
-  cursor: grab;
-}
-
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
-
-  
-/* COSMIC WHITE GLOW */
-:root {
-  --star-glow: rgba(255,255,255,.95);
+  background: #030305 !important;
+  color: var(--fg) !important;
 }
 
 body {
-  background-color: #020204 !important;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.12), transparent 48%),
+    radial-gradient(ellipse at 100% 100%, rgba(255,255,255,.035), transparent 40%) !important;
+  background-attachment: fixed;
+}
+
+header,
+.composer-wrap,
+.settings,
+.research-panel {
+  background: rgba(8,8,12,.72) !important;
+  border-color: var(--line) !important;
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
 }
 
 .brand-trigger {
   position: relative;
   isolation: isolate;
   overflow: visible;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,.35));
+  border: 0;
+  background: transparent !important;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  filter: drop-shadow(0 0 9px rgba(255,255,255,.3));
+  transition: transform .35s var(--spring);
+}
+
+.brand-trigger:active {
+  transform: scale(1.08);
 }
 
 .brand-mark {
-  position: relative;
-  overflow: visible;
-  box-shadow:
-    0 0 12px rgba(255,255,255,.35),
-    0 0 28px rgba(255,255,255,.18),
-    inset 0 0 12px rgba(255,255,255,.12) !important;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: rgba(255,255,255,.09) !important;
+  border: 1px solid rgba(255,255,255,.3);
+  color: white !important;
+  font-size: 23px;
+  font-weight: 700;
+  box-shadow: 0 0 18px rgba(255,255,255,.3);
   animation: logoGlow 3s ease-in-out infinite alternate;
 }
 
+.brand-name {
+  color: white !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 0 7px white, 0 0 20px rgba(255,255,255,.65);
+}
+
 @keyframes logoGlow {
-  from {
-    box-shadow: 0 0 8px rgba(255,255,255,.2),
-                0 0 18px rgba(255,255,255,.12);
-  }
-  to {
-    box-shadow: 0 0 18px rgba(255,255,255,.55),
-                0 0 38px rgba(255,255,255,.25);
-  }
+  from { box-shadow: 0 0 8px rgba(255,255,255,.2); }
+  to { box-shadow: 0 0 24px rgba(255,255,255,.6); }
 }
 
-/* CONSTELLATION */
-.brand-trigger::before,
-.brand-trigger::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  z-index: -1;
-  inset: -13px -22px;
-  opacity: .8;
-  background:
-    radial-gradient(circle at 8% 30%, white 0 1px, transparent 2px),
-    radial-gradient(circle at 25% 75%, white 0 1.5px, transparent 2.5px),
-    radial-gradient(circle at 48% 15%, white 0 1px, transparent 2px),
-    radial-gradient(circle at 70% 80%, white 0 1.5px, transparent 2.5px),
-    radial-gradient(circle at 92% 28%, white 0 1px, transparent 2px);
-  filter: drop-shadow(0 0 5px white);
-  animation: starDrift 7s ease-in-out infinite alternate;
-}
-
-.brand-trigger::after {
-  opacity: .35;
-  transform: scale(.85);
-  animation: starDrift 10s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes starDrift {
-  from {
-    transform: translate(-3px, 2px) rotate(-2deg);
-    opacity: .35;
-  }
-  to {
-    transform: translate(4px, -3px) rotate(3deg);
-    opacity: 1;
-  }
-}
-
-/* WHITE GLOW ON BUTTONS */
-.btn,
-.suggestion {
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.12),
-    0 0 12px rgba(255,255,255,.07);
-}
-
-button:active {
-  transform: scale(1.075);
-  box-shadow: 0 0 25px rgba(255,255,255,.28);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .brand-trigger::before,
-  .brand-trigger::after,
-  .brand-mark {
-    animation: none !important;
-  }
-}
-  
-/* Z.AI - ZODIAC CONSTELLATION */
-.brand-trigger {
-  position: relative;
-  isolation: isolate;
-}
-
+/* ZODIAC CONSTELLATION */
 .brand-trigger::before {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: -16px -25px;
   pointer-events: none;
+  inset: -14px -24px;
   background:
-    radial-gradient(circle at 10% 25%, #fff 0 1.5px, transparent 2.5px),
-    radial-gradient(circle at 30% 80%, #fff 0 1px, transparent 2px),
-    radial-gradient(circle at 52% 12%, #fff 0 2px, transparent 3px),
-    radial-gradient(circle at 73% 75%, #fff 0 1.5px, transparent 2.5px),
-    radial-gradient(circle at 92% 30%, #fff 0 1px, transparent 2px),
-    linear-gradient(25deg, transparent 28%, rgba(255,255,255,.35) 28.3%, transparent 28.8%),
-    linear-gradient(-18deg, transparent 48%, rgba(255,255,255,.25) 48.3%, transparent 48.8%);
-  filter: drop-shadow(0 0 5px white);
+    radial-gradient(circle at 10% 25%, white 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 30% 80%, white 0 1px, transparent 2px),
+    radial-gradient(circle at 52% 12%, white 0 2px, transparent 3px),
+    radial-gradient(circle at 73% 75%, white 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 92% 30%, white 0 1px, transparent 2px),
+    linear-gradient(25deg, transparent 28%, rgba(255,255,255,.4) 28.3%, transparent 28.8%),
+    linear-gradient(-18deg, transparent 48%, rgba(255,255,255,.3) 48.3%, transparent 48.8%);
+  filter: drop-shadow(0 0 6px white);
   animation: zodiacOrbit 9s ease-in-out infinite alternate;
 }
 
 @keyframes zodiacOrbit {
-  0% {
+  from {
     transform: rotate(-4deg) translateX(-3px);
-    opacity: .45;
+    opacity: .35;
   }
-  50% {
+  to {
+    transform: rotate(4deg) translateX(3px);
     opacity: 1;
   }
-  100% {
-    transform: rotate(4deg) translateX(3px);
-    opacity: .65;
+}
+
+/* GLASS BUTTONS */
+.btn,
+.suggestion,
+textarea,
+.msg.bot .bubble,
+.thought {
+  color: white !important;
+  background: rgba(255,255,255,.055) !important;
+  border: 1px solid rgba(255,255,255,.17) !important;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12),
+              0 8px 25px rgba(0,0,0,.25);
+}
+
+.btn.primary,
+.btn.active,
+.msg.user .bubble {
+  color: white !important;
+  background: rgba(255,255,255,.13) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+}
+
+button,
+.suggestion {
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .35s var(--spring),
+              box-shadow .3s ease,
+              background .3s ease;
+}
+
+button:active,
+.suggestion:active {
+  transform: scale(1.075);
+  box-shadow: 0 0 25px rgba(255,255,255,.3);
+}
+
+.empty h2 {
+  color: white !important;
+  background: none !important;
+  text-shadow: 0 0 12px rgba(255,255,255,.65),
+               0 0 30px rgba(255,255,255,.2);
+}
+
+.empty p,
+.hint,
+.status,
+.meta button,
+.settings p,
+.settings .note,
+.research-panel p {
+  color: #b9b9c5 !important;
+}
+
+textarea::placeholder {
+  color: #858592 !important;
+}
+
+textarea:focus {
+  border-color: rgba(255,255,255,.65) !important;
+  box-shadow: 0 0 18px rgba(255,255,255,.12);
+}
+
+.research-panel h2 {
+  color: white !important;
+}
+
+.research-sources a {
+  color: white !important;
+}
+
+.brand-trigger:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-trigger::before,
+  .brand-mark {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
   }
 }
-
-/* GLOWING WHITE TEXT */
-.brand-name {
-  text-shadow:
-    0 0 5px white,
-    0 0 12px rgba(255,255,255,.7),
-    0 0 25px rgba(255,255,255,.35);
-}
-
-.brand-mark {
-  text-shadow: 0 0 12px white;
-}
-

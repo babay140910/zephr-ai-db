@@ -1,0 +1,207 @@
+
+/* ZEPHR.AI — iOS LIQUID GLASS LIGHT */
+
+:root {
+  color-scheme: light;
+
+  --bg: #f4f6fc;
+  --elevated: rgba(255,255,255,.72);
+  --subtle: rgba(255,255,255,.58);
+  --fg: #202438;
+  --muted: #68738c;
+  --faint: #929bb0;
+  --line: rgba(125,145,185,.20);
+  --accent: #b5ceff;
+  --ink: #17233d;
+  --danger: #d94b61;
+
+  --glass: rgba(255,255,255,.62);
+  --glass-border: rgba(255,255,255,.85);
+  --spring: cubic-bezier(.22,1,.36,1);
+}
+
+html, body {
+  background:
+    radial-gradient(ellipse at 10% 0%, #e0eaff, transparent 45%),
+    radial-gradient(ellipse at 100% 75%, #e9e4ff, transparent 38%),
+    #f4f6fc !important;
+  color: var(--fg);
+}
+
+body::before {
+  opacity: .08;
+}
+
+header {
+  background: rgba(255,255,255,.68) !important;
+  border-color: var(--line) !important;
+  box-shadow: 0 8px 30px rgba(70,90,140,.07);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+
+.brand h1 {
+  background: linear-gradient(110deg,#344b78,#7898d8) !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.brand p {
+  color: #78849d !important;
+}
+
+.btn {
+  color: #34425f !important;
+  background: rgba(255,255,255,.66) !important;
+  border: 1px solid rgba(255,255,255,.9) !important;
+  border-radius: 15px !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.95),
+    0 5px 18px rgba(70,90,140,.09);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: transform .4s var(--spring),
+              box-shadow .4s var(--spring);
+}
+
+.btn.primary, .btn.active {
+  color: #fff !important;
+  background: linear-gradient(135deg,#789be9,#9bb9f5) !important;
+  border-color: rgba(255,255,255,.8) !important;
+}
+
+.btn:active:not(:disabled),
+.suggestion:active {
+  transform: scale(.95);
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.chat {
+  scroll-behavior: smooth;
+}
+
+.empty h2 {
+  background: linear-gradient(110deg,#293c65,#7898d8) !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.empty p {
+  color: #69758f !important;
+}
+
+.suggestion {
+  color: #34425f !important;
+  background: rgba(255,255,255,.64) !important;
+  border: 1px solid rgba(255,255,255,.9) !important;
+  border-radius: 19px !important;
+  box-shadow: 0 8px 25px rgba(70,90,140,.07);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  transition: transform .4s var(--spring),
+              box-shadow .4s var(--spring);
+}
+
+.suggestion:hover {
+  transform: translateY(-3px);
+}
+
+.msg.user .bubble {
+  color: #17233d !important;
+  background: linear-gradient(135deg,#dce9ff,#b5ceff) !important;
+}
+
+.msg.bot .bubble {
+  color: #303b54 !important;
+  background: rgba(255,255,255,.72) !important;
+  border: 1px solid rgba(255,255,255,.95) !important;
+  box-shadow: 0 8px 25px rgba(70,90,140,.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.thought {
+  color: #65718a !important;
+  background: rgba(255,255,255,.65) !important;
+}
+
+.meta button {
+  color: #7889a9 !important;
+}
+
+.status, .hint {
+  color: #8590a7 !important;
+}
+
+.composer-wrap {
+  background: rgba(255,255,255,.72) !important;
+  border-color: var(--line) !important;
+  box-shadow: 0 -8px 30px rgba(70,90,140,.05);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+
+textarea,
+.settings input,
+.settings select {
+  color: #303b54 !important;
+  background: rgba(255,255,255,.78) !important;
+  border: 1px solid rgba(160,175,205,.3) !important;
+  border-radius: 17px !important;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,.9);
+}
+
+textarea::placeholder {
+  color: #9ba5b8 !important;
+}
+
+.settings {
+  background: rgba(255,255,255,.82) !important;
+  border-color: var(--line) !important;
+}
+
+.settings p,
+.settings .note {
+  color: #68738c !important;
+}
+
+.research-panel {
+  background: rgba(255,255,255,.72) !important;
+  border-color: var(--line) !important;
+  box-shadow: 0 8px 25px rgba(70,90,140,.07);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.research-panel h2 {
+  color: #34425f;
+}
+
+.research-panel p {
+  color: #68738c !important;
+}
+
+.research-sources a {
+  color: #527bc5 !important;
+}
+
+.draggable {
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

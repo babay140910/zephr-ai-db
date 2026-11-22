@@ -910,5 +910,145 @@
     render();
     el.input.focus();
   </script>
+
+
+<script>
+(() => {
+  const logo = document.querySelector("#brandBtn");
+  const svg = logo?.querySelector(".cosmic-network");
+
+  if (!logo || !svg || svg.dataset.interactive) return;
+  svg.dataset.interactive = "true";
+
+  const NS = "http://www.w3.org/2000/svg";
+  const group = document.createElementNS(NS, "g");
+  group.setAttribute("class", "interactive-stars");
+  svg.appendChild(group);
+
+  const count = 34;
+  const stars = [];
+  const lines = [];
+
+  for (let i = 0; i < count; i++) {
+    const star = document.createElementNS(NS, "circle");
+    star.setAttribute("r", i % 5 === 0 ? "2.2" : "1.5");
+    group.appendChild(star);
+
+    stars.push({
+      x: Math.random() * 320,
+      y: Math.random() * 72,
+      ox: 0,
+      oy: 0,
+      vx: 0,
+      vy: 0,
+      el: star
+    });
+  }
+
+  for (let i = 0; i < count * 2; i++) {
+    const line = document.createElementNS(NS, "line");
+    line.setAttribute("stroke", "white");
+    line.setAttribute("stroke-width", ".65");
+    line.setAttribute("opacity", ".35");
+    group.insertBefore(line, group.firstChild);
+    lines.push(line);
+  }
+
+  const pointer = { x: -1000, y: -1000, active: false };
+
+  function move(e) {
+    const rect = svg.getBoundingClientRect();
+    pointer.x = (e.clientX - rect.left) / rect.width * 320;
+    pointer.y = (e.clientY - rect.top) / rect.height * 72;
+    pointer.active = true;
+  }
+
+  logo.addEventListener("pointermove", move);
+  logo.addEventListener("pointerleave", () => {
+    pointer.active = false;
+  });
+
+  logo.addEventListener("pointerdown", move);
+
+  function animate() {
+    const rect = svg.getBoundingClientRect();
+    const w = 320;
+    const h = 72;
+
+    stars.forEach((s, i) => {
+      const dx = pointer.x - s.x;
+      const dy = pointer.y - s.y;
+      const distance = Math.hypot(dx, dy);
+
+      let force = 0;
+      if (pointer.active && distance < 65) {
+        force = (65 - distance) / 65;
+      }
+
+      const tx = force ? -dx / (distance || 1) * force * 13 : 0;
+      const ty = force ? -dy / (distance || 1) * force * 13 : 0;
+
+      s.vx += (tx - s.ox) * .025;
+      s.vy += (ty - s.oy) * .025;
+      s.vx *= .88;
+      s.vy *= .88;
+      s.ox += s.vx;
+      s.oy += s.vy;
+
+      const driftX = Math.sin(Date.now() * .0005 + i) * .8;
+      const driftY = Math.cos(Date.now() * .0007 + i * 2) * .8;
+
+      const x = Math.max(2, Math.min(w - 2, s.x + s.ox + driftX));
+      const y = Math.max(2, Math.min(h - 2, s.y + s.oy + driftY));
+
+      s.el.setAttribute("cx", x);
+      s.el.setAttribute("cy", y);
+      s.el.setAttribute("fill", "white");
+      s.el.style.filter = "drop-shadow(0 0 3px white)";
+      s.el.style.opacity = .65 + Math.sin(Date.now() * .003 + i) * .3;
+
+      s.currentX = x;
+      s.currentY = y;
+    });
+
+    let index = 0;
+    for (let i = 0; i < stars.length; i++) {
+      const nearest = stars
+        .map((s, j) => ({
+          j,
+          d: Math.hypot(
+            stars[i].currentX - s.currentX,
+            stars[i].currentY - s.currentY
+          )
+        }))
+        .filter(v => v.j !== i && v.d < 48)
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 2);
+
+      nearest.forEach(n => {
+        if (index >= lines.length) return;
+        const a = stars[i];
+        const b = stars[n.j];
+        const line = lines[index++];
+
+        line.setAttribute("x1", a.currentX);
+        line.setAttribute("y1", a.currentY);
+        line.setAttribute("x2", b.currentX);
+        line.setAttribute("y2", b.currentY);
+        line.setAttribute("opacity", 1 - n.d / 48);
+      });
+    }
+
+    for (; index < lines.length; index++) {
+      lines[index].setAttribute("opacity", "0");
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();
+</script>
+  
 </body>
 </html>

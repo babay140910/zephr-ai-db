@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zephr-ai",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-18",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "zephr-ai-db",
+      "database_id": "425289ca-6228-4edd-a5a8-79573b6c7ce2",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "triggers": { "crons": ["0 0 * * *"] },
+  "vars": { "GEMINI_MODEL": "gemini-3.5-flash-lite" }
+}

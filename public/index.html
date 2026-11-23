@@ -839,18 +839,12 @@
 
 function showError(text) {
   const error = document.createElement("div");
-  error.className = "error-message";
+  error.className = "error";
   error.textContent = text;
 
-  const chatContainer = document.querySelector("#messages");
-
-  if (chatContainer) {
-    chatContainer.appendChild(error);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-  } else {
-    console.error(text);
-  }
-}
+  el.chat.appendChild(error);
+  scrollBottom();
+    }
 
 async function apiReply(history, files = []) {
   const uploadedFiles = [];

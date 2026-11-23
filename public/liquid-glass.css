@@ -55,13 +55,13 @@ header,
   transform: scale(.96);
 }
 
-
 .brand-trigger {
   position: relative;
   isolation: isolate;
   overflow: hidden !important;
-  min-width: 100%;
-  min-height: 72px;
+  min-width: 0;
+  min-height: 56px;
+  flex: 1;
 }
 
 .brand-trigger .cosmic-network {

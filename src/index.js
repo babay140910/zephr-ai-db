@@ -80,8 +80,108 @@ async function checkLimits(request, env) {
   if ((globalRow?.count || 0) > MAX_DAILY_GLOBAL) return "Batas penggunaan harian Zephr.ai tercapai. Silakan coba lagi besok.";
   return null;
 }
+
+async function uploadToGemini(request, env) {
+  if (!env.GEMINI_API_KEY) {
+    return json({ error: "API Gemini belum dikonfigurasi." }, 500);
+  }
+
+  const size = Number(request.headers.get("content-length") || 0);
+  const mimeType = request.headers.get("content-type") || "";
+  const MAX_FILE_SIZE = 50 * 1024 * 1024;
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+    "application/pdf",
+    "video/mp4",
+    "video/mpeg",
+    "video/quicktime",
+    "video/webm",
+    "audio/mpeg",
+    "audio/wav",
+    "audio/ogg",
+    "audio/mp4",
+    "audio/aac",
+    "audio/flac"
+  ];
+
+  if (!size || size > MAX_FILE_SIZE) {
+    return json({ error: "Ukuran file maksimal 50 MB." }, 413);
+  }
+
+  if (!allowedTypes.includes(mimeType)) {
+    return json({ error: "Format file belum didukung." }, 415);
+  }
+
+  const name = new URL(request.url).searchParams.get("name") || "lampiran";
+
+  try {
+    const start = await fetch(
+      "https://generativelanguage.googleapis.com/upload/v1beta/files",
+      {
+        method: "POST",
+        headers: {
+          "x-goog-api-key": env.GEMINI_API_KEY,
+          "X-Goog-Upload-Protocol": "resumable",
+          "X-Goog-Upload-Command": "start",
+          "X-Goog-Upload-Header-Content-Length": String(size),
+          "X-Goog-Upload-Header-Content-Type": mimeType,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          file: { display_name: name.slice(0, 200) }
+        })
+      }
+    );
+
+    if (!start.ok) {
+      throw new Error("Gagal membuat sesi upload Gemini.");
+    }
+
+    const uploadUrl = start.headers.get("x-goog-upload-url");
+
+    if (!uploadUrl) {
+      throw new Error("URL upload Gemini tidak ditemukan.");
+    }
+
+    const uploaded = await fetch(uploadUrl, {
+      method: "POST",
+      headers: {
+        "Content-Length": String(size),
+        "X-Goog-Upload-Offset": "0",
+        "X-Goog-Upload-Command": "upload, finalize",
+        "Content-Type": mimeType
+      },
+      body: request.body
+    });
+
+    const result = await uploaded.json().catch(() => ({}));
+
+    if (!uploaded.ok || !result.file?.uri) {
+      throw new Error(result.error?.message || "Upload Gemini gagal.");
+    }
+
+    return json({
+      fileUri: result.file.uri,
+      mimeType: result.file.mimeType || mimeType,
+      name: result.file.displayName || name
+    });
+
+  } catch (error) {
+    console.error("Gemini upload error:", error);
+    return json({
+      error: "Gagal mengunggah file ke Gemini. Silakan coba lagi."
+    }, 502);
+  }
+}
 async function handleApi(request, env) {
   const url = new URL(request.url);
+  if (url.pathname === "/api/upload" && request.method === "POST") {
+  return uploadToGemini(request, env);
+  }
   if (url.pathname === "/api/health" && request.method === "GET") return json({ configured: Boolean(env.GEMINI_API_KEY), model: env.GEMINI_MODEL || MODEL_DEFAULT, provider: "Google Gemini", accessRequired: false, researchTopic: TOPIC, researchSchedule: "07:00 Asia/Jakarta" });
   if (url.pathname === "/api/research/latest" && request.method === "GET") {
     const row = await env.DB.prepare("SELECT report_json FROM research_reports ORDER BY report_date DESC LIMIT 1").first();

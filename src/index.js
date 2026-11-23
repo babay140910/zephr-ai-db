@@ -86,9 +86,10 @@ async function uploadToGemini(request, env) {
     return json({ error: "API Gemini belum dikonfigurasi." }, 500);
   }
 
-  const size = Number(request.headers.get("content-length") || 0);
-  const mimeType = request.headers.get("content-type") || "";
   const MAX_FILE_SIZE = 50 * 1024 * 1024;
+  const mimeType = (request.headers.get("content-type") || "").split(";")[0].trim().toLowerCase();
+  const sizeHeader = request.headers.get("content-length");
+  const size = Number(sizeHeader);
 
   const allowedTypes = [
     "image/jpeg",
@@ -102,13 +103,18 @@ async function uploadToGemini(request, env) {
     "video/webm",
     "audio/mpeg",
     "audio/wav",
+    "audio/x-wav",
     "audio/ogg",
     "audio/mp4",
     "audio/aac",
     "audio/flac"
   ];
 
-  if (!size || size > MAX_FILE_SIZE) {
+  if (!sizeHeader || !Number.isSafeInteger(size) || size <= 0) {
+    return json({ error: "Ukuran file tidak valid." }, 400);
+  }
+
+  if (size > MAX_FILE_SIZE) {
     return json({ error: "Ukuran file maksimal 50 MB." }, 413);
   }
 
@@ -138,7 +144,7 @@ async function uploadToGemini(request, env) {
     );
 
     if (!start.ok) {
-      throw new Error("Gagal membuat sesi upload Gemini.");
+      throw new Error("Gemini gagal memulai upload.");
     }
 
     const uploadUrl = start.headers.get("x-goog-upload-url");
@@ -177,6 +183,7 @@ async function uploadToGemini(request, env) {
     }, 502);
   }
 }
+
 async function handleApi(request, env) {
   const url = new URL(request.url);
   if (url.pathname === "/api/upload" && request.method === "POST") {

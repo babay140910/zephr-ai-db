@@ -902,40 +902,52 @@ async function apiReply(history, files = []) {
 }
 
     async function sendMessage(text) {
-      const content = (text || "").trim();
-      if (!content || pending) return;
+  const content = (text || "").trim();
 
-      confirmClear = false;
-      el.clearBtn.textContent = "Hapus";
+  if ((!content && selectedFiles.length === 0) || pending) return;
 
-      messages.push({ role: "user", content });
-      saveThread();
-      pending = true;
-      el.sendBtn.disabled = true;
-      render();
+  const messageContent = content || "Tolong analisis lampiran ini.";
 
-      try {
-        const history = messages.slice(-10);
-        const filesToSend = selectedFiles.slice();
-const reply = await apiReply(history, filesToSend);
+  confirmClear = false;
+  el.clearBtn.textContent = "Hapus";
 
-        messages.push({
-          role: "assistant",
-          content: reply.text,
-          thought: reply.thought || ""
-        });
-        saveThread();
-        selectedFiles = [];
-fileInput.value = "";
-attachmentPreview.innerHTML = "";
-      } catch (err) {
-        showError(String(err.message || err));
-      } finally {
-        pending = false;
-        el.sendBtn.disabled = false;
-        render();
-        el.input.focus();
-      }
+  messages.push({
+    role: "user",
+    content: messageContent
+  });
+
+  saveThread();
+  pending = true;
+  el.sendBtn.disabled = true;
+  render();
+
+  try {
+    const history = messages.slice(-10);
+    const filesToSend = selectedFiles.slice();
+
+    const reply = await apiReply(history, filesToSend);
+
+    messages.push({
+      role: "assistant",
+      content: reply.text,
+      thought: reply.thought || ""
+    });
+
+    saveThread();
+
+    selectedFiles = [];
+    fileInput.value = "";
+    attachmentPreview.innerHTML = "";
+
+  } catch (err) {
+    showError(String(err.message || err));
+
+  } finally {
+    pending = false;
+    el.sendBtn.disabled = false;
+    render();
+    el.input.focus();
+  }
     }
 
     // events

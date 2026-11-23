@@ -906,41 +906,6 @@ async function apiReply(history, files = []) {
     text: data.reply
   };
 }
-    
-  const attachments = await Promise.all(
-    files.map(async file => ({
-      name: file.name,
-      mimeType: file.type,
-      data: await fileToBase64(file)
-    }))
-  );
-
-  const res = await fetch("/api/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      messages: history.slice(-12),
-      files: attachments
-    })
-  });
-
-  const data = await res.json().catch(() => ({}));
-
-  if (!res.ok) {
-    throw new Error(data.error || `Server error ${res.status}`);
-  }
-
-  if (!data.reply) {
-    throw new Error("Jawaban kosong dari server Gemini.");
-  }
-
-  return {
-    thought: "",
-    text: data.reply
-  };
-}
 
     async function sendMessage(text) {
       const content = (text || "").trim();

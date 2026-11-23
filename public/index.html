@@ -845,7 +845,33 @@ function showError(text) {
   el.chat.appendChild(error);
   scrollBottom();
     }
+    
+function getMimeFromName(name) {
+  const ext = String(name || "").split(".").pop().toLowerCase();
 
+  const mimeTypes = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    gif: "image/gif",
+    pdf: "application/pdf",
+    mp4: "video/mp4",
+    mpeg: "video/mpeg",
+    mpg: "video/mpeg",
+    mov: "video/quicktime",
+    webm: "video/webm",
+    mp3: "audio/mpeg",
+    wav: "audio/wav",
+    ogg: "audio/ogg",
+    m4a: "audio/mp4",
+    aac: "audio/aac",
+    flac: "audio/flac"
+  };
+
+  return mimeTypes[ext] || "application/octet-stream";
+    }
+    
 async function apiReply(history, files = []) {
   const uploadedFiles = [];
 

@@ -856,7 +856,7 @@ async function apiReply(history, files = []) {
       {
         method: "POST",
         headers: {
-          "Content-Type": file.type || "application/octet-stream"
+          "Content-Type": file.type || getMimeFromName(file.name)
         },
         body: file
       }

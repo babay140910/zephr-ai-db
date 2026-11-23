@@ -964,7 +964,50 @@ addFileBtn.addEventListener("click", () => {
 });
 
 fileInput.addEventListener("change", () => {
-  selectedFiles = Array.from(fileInput.files || []);
+  const incomingFiles = Array.from(fileInput.files || []);
+  const MAX_SIZE = 50 * 1024 * 1024;
+  const MAX_FILES = 5;
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+    "application/pdf",
+    "video/mp4",
+    "video/mpeg",
+    "video/quicktime",
+    "video/webm",
+    "audio/mpeg",
+    "audio/wav",
+    "audio/x-wav",
+    "audio/ogg",
+    "audio/mp4",
+    "audio/aac",
+    "audio/flac"
+  ];
+
+  fileInput.value = "";
+
+  for (const file of incomingFiles) {
+    if (selectedFiles.length >= MAX_FILES) {
+      showError("Maksimal 5 file dalam satu pesan.");
+      break;
+    }
+
+    if (!allowedTypes.includes(file.type)) {
+      showError("Format file tidak didukung: " + file.name);
+      continue;
+    }
+
+    if (file.size > MAX_SIZE) {
+      showError("Ukuran maksimal setiap file adalah 50 MB: " + file.name);
+      continue;
+    }
+
+    selectedFiles.push(file);
+  }
+
   attachmentPreview.innerHTML = "";
 
   selectedFiles.forEach(file => {

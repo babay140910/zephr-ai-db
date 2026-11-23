@@ -249,3 +249,38 @@ textarea:focus {
     transition-duration: .01ms !important;
   }
 }
+
+/* ZEPHR — LIQUID GLASS ATTACHMENTS */
+
+.attachment-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.attachment-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 14px;
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(18px);
+  color: white;
+  font-size: 12px;
+}
+
+.attachment-item button {
+  border: 0;
+  background: transparent;
+  color: white;
+  font-size: 19px;
+  cursor: pointer;
+}
+
+.add-btn {
+  flex-shrink: 0;
+  font-size: 23px !important;
+}

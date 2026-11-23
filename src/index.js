@@ -192,67 +192,87 @@ async function handleApi(request, env) {
     try { body = await request.json(); } catch { return json({ error: "Format permintaan tidak valid." }, 400); }
     if (!Array.isArray(body?.messages) || !body.messages.length) return json({ error: "Pesan tidak valid." }, 400);
     
-const contents = [];
+    const contents = [];
 
-try {
-  const files = Array.isArray(body.files) ? body.files : [];
+    try {
+      const files = Array.isArray(body.files) ? body.files : [];
 
-  if (files.length > 5) {
-    throw new Error("Maksimal 5 lampiran.");
-  }
-
-  const validFiles = [];
-
-  for (const file of files) {
-    const mimeType = file?.mimeType;
-    const name = String(file?.name || "lampiran");
-
-    if (!["image/jpeg", "image/png", "image/webp", "application/pdf"].includes(mimeType)) {
-      throw new Error("Format hanya mendukung JPG, PNG, WEBP, dan PDF.");
-    }
-
-    if (typeof file.data !== "string" || !file.data.length) {
-      throw new Error("Data lampiran tidak valid.");
-    }
-
-    if (file.data.length > 7_000_000) {
-      throw new Error("Ukuran lampiran terlalu besar. Gunakan file yang lebih kecil.");
-    }
-
-    validFiles.push({
-      name,
-      mimeType,
-      data: file.data
-    });
-  }
-
-  for (let i = 0; i < body.messages.slice(-MAX_MESSAGES).length; i++) {
-    const item = body.messages.slice(-MAX_MESSAGES)[i];
-    const role = item?.role === "assistant" ? "model" : item?.role === "user" ? "user" : null;
-    const content = typeof item?.content === "string" ? item.content.trim() : "";
-
-    if (!role || !content || content.length > MAX_MESSAGE_CHARS) {
-      throw new Error("Format pesan tidak valid atau terlalu panjang.");
-    }
-
-    const parts = [{ text: content }];
-
-    if (role === "user" && i === body.messages.slice(-MAX_MESSAGES).length - 1) {
-      for (const file of validFiles) {
-        parts.push({
-          inline_data: {
-            mime_type: file.mimeType,
-            data: file.data
-          }
-        });
+      if (files.length > 5) {
+        throw new Error("Maksimal 5 lampiran.");
       }
-    }
 
-    contents.push({ role, parts });
-  }
-} catch (e) {
-  return json({ error: e.message }, 400);
-}
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/gif",
+        "application/pdf",
+        "video/mp4",
+        "video/mpeg",
+        "video/quicktime",
+        "video/webm",
+        "audio/mpeg",
+        "audio/wav",
+        "audio/ogg",
+        "audio/mp4",
+        "audio/aac",
+        "audio/flac"
+      ];
+
+      const validFiles = [];
+
+      for (const file of files) {
+        const mimeType = file?.mimeType;
+        const fileUri = file?.fileUri;
+        const name = String(file?.name || "lampiran");
+
+        if (!allowedTypes.includes(mimeType)) {
+          throw new Error("Format lampiran belum didukung.");
+        }
+
+        if (
+          typeof fileUri !== "string" ||
+          !fileUri.startsWith("https://generativelanguage.googleapis.com/")
+        ) {
+          throw new Error("Alamat lampiran tidak valid.");
+        }
+
+        validFiles.push({ name, mimeType, fileUri });
+      }
+
+      const recentMessages = body.messages.slice(-MAX_MESSAGES);
+
+      for (let i = 0; i < recentMessages.length; i++) {
+        const item = recentMessages[i];
+        const role =
+          item?.role === "assistant" ? "model" :
+          item?.role === "user" ? "user" : null;
+
+        const content =
+          typeof item?.content === "string" ? item.content.trim() : "";
+
+        if (!role || !content || content.length > MAX_MESSAGE_CHARS) {
+          throw new Error("Format pesan tidak valid atau terlalu panjang.");
+        }
+
+        const parts = [{ text: content }];
+
+        if (role === "user" && i === recentMessages.length - 1) {
+          for (const file of validFiles) {
+            parts.push({
+              file_data: {
+                mime_type: file.mimeType,
+                file_uri: file.fileUri
+              }
+            });
+          }
+        }
+
+        contents.push({ role, parts });
+      }
+    } catch (e) {
+      return json({ error: e.message }, 400);
+    }
 
     const blocked = await checkLimits(request, env);
     if (blocked) return json({ error: blocked }, 429);

@@ -852,24 +852,61 @@ function showError(text) {
   }
 }
 
-async function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const result = String(reader.result);
-      resolve(result.split(",")[1] || "");
-    };
-
-    reader.onerror = () => {
-      reject(new Error("Gagal membaca file: " + file.name));
-    };
-
-    reader.readAsDataURL(file);
-  });
-}
-
 async function apiReply(history, files = []) {
+  const uploadedFiles = [];
+
+  // Upload file satu per satu ke Gemini
+  for (const file of files) {
+    const uploadRes = await fetch(
+      `/api/upload?name=${encodeURIComponent(file.name)}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": file.type || "application/octet-stream"
+        },
+        body: file
+      }
+    );
+
+    const uploadData = await uploadRes.json().catch(() => ({}));
+
+    if (!uploadRes.ok) {
+      throw new Error(
+        uploadData.error || `Gagal mengunggah ${file.name}`
+      );
+    }
+
+    uploadedFiles.push(uploadData);
+  }
+
+  // Kirim percakapan beserta URI file ke backend
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      messages: history.slice(-12),
+      files: uploadedFiles
+    })
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.error || `Server error ${res.status}`);
+  }
+
+  if (!data.reply) {
+    throw new Error("Jawaban kosong dari server Gemini.");
+  }
+
+  return {
+    thought: "",
+    text: data.reply
+  };
+}
+    
   const attachments = await Promise.all(
     files.map(async file => ({
       name: file.name,

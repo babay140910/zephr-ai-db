@@ -837,30 +837,73 @@
       scrollBottom();
     }
 
-    function showError(text) {
-      const old = el.chat.querySelector(".error");
-      if (old) old.remove();
-      const p = document.createElement("p");
-      p.className = "error";
-      p.textContent = text;
-      el.chat.appendChild(p);
-      scrollBottom();
-    }
+function showError(text) {
+  const error = document.createElement("div");
+  error.className = "error-message";
+  error.textContent = text;
 
-    async function apiReply(history) {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history.slice(-12) })
-      });
+  const chatContainer = document.querySelector("#messages");
 
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(data.error || `Server error ${res.status}`);
-      }
-      if (!data.reply) throw new Error("Jawaban kosong dari server Gemini.");
-      return { thought: "", text: data.reply };
-    }
+  if (chatContainer) {
+    chatContainer.appendChild(error);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  } else {
+    console.error(text);
+  }
+}
+
+async function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const result = String(reader.result);
+      resolve(result.split(",")[1] || "");
+    };
+
+    reader.onerror = () => {
+      reject(new Error("Gagal membaca file: " + file.name));
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+async function apiReply(history, files = []) {
+  const attachments = await Promise.all(
+    files.map(async file => ({
+      name: file.name,
+      mimeType: file.type,
+      data: await fileToBase64(file)
+    }))
+  );
+
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      messages: history.slice(-12),
+      files: attachments
+    })
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.error || `Server error ${res.status}`);
+  }
+
+  if (!data.reply) {
+    throw new Error("Jawaban kosong dari server Gemini.");
+  }
+
+  return {
+    thought: "",
+    text: data.reply
+  };
+}
 
     async function sendMessage(text) {
       const content = (text || "").trim();
@@ -877,7 +920,8 @@
 
       try {
         const history = messages.slice(-10);
-        const reply = await apiReply(history);
+        const filesToSend = selectedFiles.slice();
+const reply = await apiReply(history, filesToSend);
 
         messages.push({
           role: "assistant",
@@ -885,6 +929,9 @@
           thought: reply.thought || ""
         });
         saveThread();
+        selectedFiles = [];
+fileInput.value = "";
+attachmentPreview.innerHTML = "";
       } catch (err) {
         showError(String(err.message || err));
       } finally {
